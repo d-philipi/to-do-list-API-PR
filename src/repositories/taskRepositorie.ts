@@ -1,21 +1,12 @@
 import { DB } from "../database/db.js";
 import { QueryResult } from "pg";
-import { User, UserEntity } from "../protocols/users.js";
+import { UserEntity } from "../protocols/users.js";
 import { Task, TaskEntity } from "../protocols/task.js";
 
 function insertTasks (task: Task): Promise<QueryResult<any>>{
     const result = DB.query(
         'INSERT INTO tasks ("userId", text) VALUES ($1, $2);',
         [task.userId, task.text]
-    );
-
-    return result;
-};
-
-function getUser ( user: User ): Promise<QueryResult<UserEntity>>{
-    const result = DB.query(
-        'SELECT * FROM users WHERE name = $1',
-        [ user.name ]
     );
 
     return result;
@@ -50,7 +41,6 @@ function deleteTasks (task: TaskEntity): Promise<QueryResult<any>>{
 
 export {
     insertTasks,
-    getUser,
     getTasks,
     updateTasks,
     deleteTasks

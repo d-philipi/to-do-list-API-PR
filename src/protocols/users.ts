@@ -6,7 +6,10 @@ type UserEntity = {
 
 type User = Omit <UserEntity, "id">;
 
+type newUser = Partial <UserEntity>;
+
 export{
     User,
-    UserEntity
+    UserEntity,
+    newUser
 };

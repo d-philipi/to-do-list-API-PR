@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Task, TaskEntity } from "../protocols/task.js";
-import { User } from "../protocols/users.js";
+import { newUser, User } from "../protocols/users.js";
 import { deleteTasks, insertTasks, updateTasks } from "../repositories/taskRepositorie.js";
 import { findTasks } from "../services/taskServices.js";
 import { findUser } from "../services/userServices.js";
@@ -18,9 +18,10 @@ async function createTask(req:Request, res:Response) {
 }
 
 async function showTasks(req:Request, res:Response) {
-    const user = req.body as User;
+    const id = req.params as newUser;
+    
     try {
-        const userNow = await findUser(user);
+        const userNow = await findUser(id);
         const tasksUser = await findTasks(userNow);
 
         return res.sendStatus(200).send(tasksUser);
