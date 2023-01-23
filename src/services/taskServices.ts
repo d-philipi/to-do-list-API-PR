@@ -1,5 +1,5 @@
-import { UserEntity } from "../protocols/users";
-import { getTasks } from "../repositories/taskRepositorie";
+import { UserEntity } from "../protocols/users.js";
+import { getTasks } from "../repositories/taskRepositorie.js";
 
 async function findTasks (user: UserEntity){
     

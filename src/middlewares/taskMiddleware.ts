@@ -7,7 +7,7 @@ async function taskValidation(req:Request, res:Response, next: NextFunction) {
 
     if(error){
         const errors = error.details.map((d) => d.message);
-        res.sendStatus(400).send(errors);
+        res.send(errors).status(400);
         return;
     }
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { newUser, User } from "../protocols/users.js";
 import { insertUser } from "../repositories/userRepositorie.js";
-import { findUser } from "../services/userServices.js";
+import { findUserName } from "../services/userServices.js";
 
 async function createUser(req:Request, res:Response) {
     const user = req.body as User;
@@ -11,19 +11,19 @@ async function createUser(req:Request, res:Response) {
         return res.sendStatus(200);
       } catch (error) {
 
-        return res.sendStatus(500).send({message: "Erro ao registrar o usuário"});
+        return res.send({message: "Erro ao registrar o usuário"}).status(500);
       }
 }
 
 async function loginUser(req:Request, res:Response) {
     const name = req.body as newUser;
-    try {
-        const result = await findUser(name);
+    try {        
+        const result = await findUserName(name);
 
-        return res.sendStatus(200).send(result);
+        return res.send(result.rows[0]);
       } catch (error) {
 
-        return res.sendStatus(500).send({message: "Usuário não, encontrado"});
+        return res.send({message: "Usuário não, encontrado"}).status(500);
       }
 }
 

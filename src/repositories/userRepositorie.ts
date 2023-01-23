@@ -2,8 +2,8 @@ import { DB } from "../database/db.js";
 import { QueryResult } from "pg";
 import { newUser, User, UserEntity } from "../protocols/users.js";
 
-function insertUser(user: User){
-    const result = DB.query(
+async function insertUser(user: User){
+    const result = await DB.query(
         'INSERT INTO users (name, photo) VALUES ($1, $2);',
         [user.name, user.photo]
     );
@@ -11,8 +11,8 @@ function insertUser(user: User){
     return result;
 };
 
-function getUserByName ( user: newUser ): Promise<QueryResult<UserEntity>>{
-    const result = DB.query(
+async function getUserByName ( user: newUser ): Promise<QueryResult<UserEntity>>{
+    const result = await DB.query(
         'SELECT * FROM users WHERE name = $1',
         [ user.name ]
     );
@@ -20,8 +20,8 @@ function getUserByName ( user: newUser ): Promise<QueryResult<UserEntity>>{
     return result;
 };
 
-function getUserById ( user: newUser ): Promise<QueryResult<UserEntity>>{
-    const result = DB.query(
+async function getUserById ( user: newUser ): Promise<QueryResult<UserEntity>>{
+    const result = await DB.query(
         'SELECT * FROM users WHERE id = $1',
         [ user.id ]
     );

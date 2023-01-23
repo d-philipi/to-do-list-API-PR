@@ -14,7 +14,7 @@ function insertTasks (task: Task): Promise<QueryResult<any>>{
 
 function getTasks ( user: UserEntity ): Promise<QueryResult<TaskEntity>>{
     const result = DB.query(
-        'SELECT * FROM tasks WHERE "userId" = $1',
+        'SELECT * FROM tasks WHERE "userId" = $1;',
         [ user.id ]
     );
 
@@ -23,26 +23,26 @@ function getTasks ( user: UserEntity ): Promise<QueryResult<TaskEntity>>{
 
 function getTask ( id: IdTask ): Promise<QueryResult<TaskEntity>>{
     const result = DB.query(
-        'SELECT * FROM tasks WHERE id = $1',
+        'SELECT * FROM tasks WHERE id = $1;',
         [ id.id ]
     );
 
     return result;
 };
 
-function updateTasks (task: TaskEntity): Promise<QueryResult<any>>{
+function updateTasks (id: string | number): Promise<QueryResult<any>>{
     const result = DB.query(
-        'UPDATE tasks set done = $1 WHERE id = $2',
-        [task.done,task.id]
+        'UPDATE tasks set done = $1 WHERE id = $2;',
+        [true, id]
     );
 
     return result;
 };
 
-function deleteTasks (id: IdTask): Promise<QueryResult<any>>{
+function deleteTasks (id: string | number): Promise<QueryResult<any>>{
     const result = DB.query(
-        'DELETE FROM tasks WHERE id = $2',
-        [ id.id ]
+        'DELETE FROM tasks WHERE id = $1;',
+        [ id ]
     );
 
     return result;

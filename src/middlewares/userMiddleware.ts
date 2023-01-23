@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { userSchema } from "../models/userSchema.js";
-import { findUser } from "../services/userServices.js";
+import { findUserName } from "../services/userServices.js";
 
 async function userValidation(req:Request, res:Response, next: NextFunction) {
     const user = req.body;
@@ -12,10 +12,10 @@ async function userValidation(req:Request, res:Response, next: NextFunction) {
         return;
     }
 
-    const userNow = await findUser(user);
+    const userNow = await findUserName(user);
 
-    if (!userNow){
-        res.sendStatus(409);
+    if (userNow.rows.length !== 0){
+        res.sendStatus(409).send({mensage: "Esse usuário já existe."});
         return;
     };
 
