@@ -1,0 +1,57 @@
+import { DB } from "../database/db.js";
+import { QueryResult } from "pg";
+import { User, UserEntity } from "../protocols/users.js";
+import { Task, TaskEntity } from "../protocols/task.js";
+
+function insertTasks (task: Task): Promise<QueryResult<any>>{
+    const result = DB.query(
+        'INSERT INTO tasks ("userId", text) VALUES ($1, $2);',
+        [task.userId, task.text]
+    );
+
+    return result;
+};
+
+function getUser ( user: User ): Promise<QueryResult<UserEntity>>{
+    const result = DB.query(
+        'SELECT * FROM users WHERE name = $1',
+        [ user.name ]
+    );
+
+    return result;
+};
+
+function getTasks ( user: UserEntity ): Promise<QueryResult<TaskEntity>>{
+    const result = DB.query(
+        'SELECT * FROM tasks WHERE "userId" = $1',
+        [ user.id ]
+    );
+
+    return result;
+};
+
+function updateTasks (task: TaskEntity): Promise<QueryResult<any>>{
+    const result = DB.query(
+        'UPDATE tasks set done = $1 WHERE id = $2',
+        [task.done,task.id]
+    );
+
+    return result;
+};
+
+function deleteTasks (task: TaskEntity): Promise<QueryResult<any>>{
+    const result = DB.query(
+        'DELETE FROM tasks WHERE id = $2',
+        [task.id]
+    );
+
+    return result;
+};
+
+export {
+    insertTasks,
+    getUser,
+    getTasks,
+    updateTasks,
+    deleteTasks
+}
