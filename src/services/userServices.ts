@@ -1,4 +1,4 @@
-import { newUser, UserEntity } from "../protocols/users.js";
+import { newUser } from "../protocols/users.js";
 import { getUserByName, getUserById } from "../repositories/userRepositorie.js";
 
 

@@ -8,7 +8,12 @@ type TaskEntity = {
 
 type Task = Omit <TaskEntity, "id">;
 
+type IdTask = {
+    id: string | number,
+}
+
 export {
     Task,
-    TaskEntity
+    TaskEntity,
+    IdTask
 };
