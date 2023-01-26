@@ -1,49 +1,63 @@
-import { DB } from "../database/db.js";
-import { QueryResult } from "pg";
+import { prisma } from "../database/db.js";
 import { UserEntity } from "../protocols/users.js";
-import { IdTask, Task, TaskEntity } from "../protocols/task.js";
+import { Task } from "../protocols/task.js";
+import { Prisma, PrismaPromise, tasks } from "@prisma/client";
 
-function insertTasks (task: Task): Promise<QueryResult<any>>{
-    const result = DB.query(
-        'INSERT INTO tasks ("userId", text) VALUES ($1, $2);',
-        [task.userId, task.text]
-    );
+function insertTasks (task: Task): Prisma.Prisma__tasksClient<tasks, never>{
 
-    return result;
-};
-
-function getTasks ( user: UserEntity ): Promise<QueryResult<TaskEntity>>{
-    const result = DB.query(
-        'SELECT * FROM tasks WHERE "userId" = $1;',
-        [ user.id ]
-    );
+    const result = prisma.tasks.create({
+        data: {
+            userId: task.userId,
+            text: task.text
+        }
+    })
 
     return result;
 };
 
-function getTask ( id: IdTask ): Promise<QueryResult<TaskEntity>>{
-    const result = DB.query(
-        'SELECT * FROM tasks WHERE id = $1;',
-        [ id.id ]
-    );
+function getTasks ( user: UserEntity ): PrismaPromise<tasks[]>{
+
+    const result = prisma.tasks.findMany({
+        where: {
+            userId: user.id
+        }
+    })
 
     return result;
 };
 
-function updateTasks (id: string | number): Promise<QueryResult<any>>{
-    const result = DB.query(
-        'UPDATE tasks set done = $1 WHERE id = $2;',
-        [true, id]
-    );
+function getTask ( id: number ): PrismaPromise<tasks[]>{
+
+    const result = prisma.tasks.findMany({
+        where: {
+            id: id
+        }
+    })
 
     return result;
 };
 
-function deleteTasks (id: string | number): Promise<QueryResult<any>>{
-    const result = DB.query(
-        'DELETE FROM tasks WHERE id = $1;',
-        [ id ]
-    );
+function updateTasks (id: number): Prisma.Prisma__tasksClient<tasks, never>{
+
+    const result = prisma.tasks.update({
+        where: {
+            id: id
+        },
+        data: {
+            done: true
+        }
+    })
+
+    return result;
+};
+
+function deleteTasks (id: number): Prisma.Prisma__tasksClient<tasks, never>{
+
+    const result = prisma.tasks.delete({
+        where : {
+            id: id
+        }
+    })
 
     return result;
 };
