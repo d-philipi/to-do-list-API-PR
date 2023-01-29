@@ -8,17 +8,26 @@ datasource db {
 }
 
 model tasks {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  text      String
-  done      Boolean? @default(false)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  categorieId Int
+  text        String
+  done        Boolean?  @default(false)
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+  users       users     @relation(fields: [userId], references: [id])
+  categorie   categorie @relation(fields: [categorieId], references: [id])
+  
 }
 
 model users {
   id    Int     @id @default(autoincrement())
   name  String  @unique
   photo String
+  tasks tasks[]
+}
+
+model categorie {
+  id    Int     @id @default(autoincrement())
+  name  String
   tasks tasks[]
 }
