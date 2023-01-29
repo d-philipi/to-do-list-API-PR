@@ -8,5 +8,49 @@ async function main() {
             }
     })
 
-    await prisma.categorie.create
-}
+    await prisma.categorie.createMany({
+        data: [
+            {
+                name: "Fácil"
+            },
+            {
+                name: "Médio"
+            },
+            {
+                name: "Difícil"
+            }
+        ]
+    })
+
+    await prisma.tasks.createMany({
+        data: [
+            {
+                userId: 1,
+                categorieId: 1,
+                description: "Assistir o minicurso sobre prisma"
+            },
+            {
+                userId: 1,
+                categorieId: 2,
+                description: "Terminar a POC"
+            },
+            {
+                userId: 1,
+                categorieId: 3,
+                description: "Terminar a aplicação do prisma no drivent"
+            }
+        ]
+    })
+};
+
+main()
+    .then(() => {
+        console.log("Registro feito com sucesso!");
+    })
+    .catch(e => {
+        console.log(e);
+        process.exit(1);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    })

@@ -11,12 +11,11 @@ model tasks {
   id          Int       @id @default(autoincrement())
   userId      Int
   categorieId Int
-  text        String
   done        Boolean?  @default(false)
   createdAt   DateTime  @default(now()) @db.Timestamp(6)
-  users       users     @relation(fields: [userId], references: [id])
+  description String
   categorie   categorie @relation(fields: [categorieId], references: [id])
-  
+  users       users     @relation(fields: [userId], references: [id])
 }
 
 model users {
