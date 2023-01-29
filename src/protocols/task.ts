@@ -1,7 +1,8 @@
 type TaskEntity = {
     id: number,
     userId: number,
-    text: string,
+    categorieId: number,
+    description: string,
     done: boolean,
     date: string | Date
 };

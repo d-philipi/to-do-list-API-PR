@@ -8,7 +8,8 @@ function insertTasks (task: Task): Prisma.Prisma__tasksClient<tasks, never>{
     const result = prisma.tasks.create({
         data: {
             userId: task.userId,
-            text: task.text
+            categorieId: task.categorieId,
+            description: task.description
         }
     })
 

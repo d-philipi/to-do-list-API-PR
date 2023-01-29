@@ -1,17 +1,16 @@
-import { newUser } from "../protocols/users.js";
 import { getUserByName, getUserById } from "../repositories/userRepositorie.js";
 
 
-async function findUserName (user: newUser){
+async function findUserName (name: string){
     
-    const userExist = await getUserByName(user);
+    const userExist = await getUserByName(name);
 
     return userExist;
 }
 
-async function findUserId (user: newUser){
+async function findUserId (id: number){
 
-    const userExist = await getUserById(user);
+    const userExist = await getUserById(id);
 
     return userExist;
 }

@@ -5,7 +5,7 @@ async function findTasks (user: UserEntity){
     
     const tasks = await getTasks(user);
 
-    return tasks.rows;
+    return tasks;
 }
 
 export {

@@ -1,30 +1,37 @@
-import { DB } from "../database/db.js";
-import { QueryResult } from "pg";
-import { newUser, User, UserEntity } from "../protocols/users.js";
+import { prisma } from "../database/db.js";
+import { newUser, User } from "../protocols/users.js";
+import { Prisma, users } from "@prisma/client";
 
-async function insertUser(user: User){
-    const result = await DB.query(
-        'INSERT INTO users (name, photo) VALUES ($1, $2);',
-        [user.name, user.photo]
-    );
+function insertUser(user: User): Prisma.Prisma__usersClient<users, never>{
 
-    return result;
-};
-
-async function getUserByName ( user: newUser ): Promise<QueryResult<UserEntity>>{
-    const result = await DB.query(
-        'SELECT * FROM users WHERE name = $1',
-        [ user.name ]
-    );
+    const result = prisma.users.create({
+        data : {
+            name: user.name,
+            photo: user.photo
+        }
+    })
 
     return result;
 };
 
-async function getUserById ( user: newUser ): Promise<QueryResult<UserEntity>>{
-    const result = await DB.query(
-        'SELECT * FROM users WHERE id = $1',
-        [ user.id ]
-    );
+function getUserByName ( name: string ): Prisma.Prisma__usersClient<users, never>{
+
+    const result = prisma.users.findUnique({
+        where:{
+            name: name
+        }
+    });
+
+    return result;
+};
+
+function getUserById ( id: number ): Prisma.Prisma__usersClient<users, never>{
+    
+    const result = prisma.users.findUnique({
+        where:{
+            id: id
+        }
+    });
 
     return result;
 };

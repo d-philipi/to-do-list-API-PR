@@ -16,11 +16,11 @@ async function createUser(req:Request, res:Response) {
 }
 
 async function loginUser(req:Request, res:Response) {
-    const name = req.body as newUser;
+    const { name } = req.body;
     try {        
         const result = await findUserName(name);
 
-        return res.send(result.rows[0]);
+        return res.send(result);
       } catch (error) {
 
         return res.send({message: "Usuário não, encontrado"}).status(500);

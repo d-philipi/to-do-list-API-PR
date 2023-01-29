@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { IdTask, Task, TaskEntity } from "../protocols/task.js";
-import { deleteTasks, getTask, insertTasks, updateTasks } from "../repositories/taskRepositorie.js";
+import { Task } from "../protocols/task.js";
+import { deleteTasks, insertTasks, updateTasks } from "../repositories/taskRepositorie.js";
 import { findTasks } from "../services/taskServices.js";
 import { findUserId } from "../services/userServices.js";
 
@@ -17,11 +17,11 @@ async function createTask(req:Request, res:Response) {
 }
 
 async function showTasks(req:Request, res:Response) {
-    const id = req.params;
+    const {id} = req.params;
     
     try {
-        const userNow = await findUserId(id);
-        const tasksUser = await findTasks(userNow.rows[0]);
+        const userNow = await findUserId(Number(id));
+        const tasksUser = await findTasks(userNow);
 
         return res.status(200).send(tasksUser);
       } catch (error) {
@@ -31,10 +31,10 @@ async function showTasks(req:Request, res:Response) {
 }
 
 async function changeTask(req:Request, res:Response) {
-    const id  = req.params as IdTask;
+    const { id }  = req.params;
     try {
 
-        await updateTasks(id.id);
+        await updateTasks(Number(id));
 
         return res.sendStatus(200);
       } catch (error) {
@@ -44,9 +44,9 @@ async function changeTask(req:Request, res:Response) {
 }
 
 async function removeTask(req:Request, res:Response) {
-    const id = req.params as IdTask;
+    const { id }  = req.params;
     try {
-        await deleteTasks(id.id);
+        await deleteTasks(Number(id));
 
         return res.sendStatus(200);
       } catch (error) {

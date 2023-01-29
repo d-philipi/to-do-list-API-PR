@@ -8,14 +8,14 @@ async function userValidation(req:Request, res:Response, next: NextFunction) {
 
     if(error){
         const errors = error.details.map((d) => d.message);
-        res.sendStatus(400).send(errors);
+        res.status(400).send(errors);
         return;
     }
 
     const userNow = await findUserName(user);
 
-    if (userNow.rows.length !== 0){
-        res.sendStatus(409).send({mensage: "Esse usuário já existe."});
+    if (userNow){
+        res.status(409).send({mensage: "Esse usuário já existe."});
         return;
     };
 
